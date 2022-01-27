@@ -1,4 +1,4 @@
-# AccessibilityService example 
+# Accessibility Service example 
 
  ## Filter url from browser by using accessibility service
  
@@ -17,6 +17,7 @@ We detect either manual user input or redirect on link pressing (because in this
 
 #Notic
  you must have give background permission to activate the application in Xiaomi devices
+
 
 
  ![](https://raw.githubusercontent.com/Amir-yazdanmanesh/Accessibility-Service/master/screenshot/screenshot.gif) 
