@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">URL Resteriction</string>
+    <string name="accessibility_service_label">Restrict addresses</string>
+    <string name="accessibility_service_description">Restrict addresses entered in the browser</string>
+</resources>

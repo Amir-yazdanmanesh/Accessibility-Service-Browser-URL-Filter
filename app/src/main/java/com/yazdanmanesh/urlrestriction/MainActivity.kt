@@ -3,9 +3,6 @@ package com.yazdanmanesh.urlrestriction
 import android.accessibilityservice.AccessibilityService
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.yazdanmanesh.urlrestriction.R
-import com.yazdanmanesh.urlrestriction.MainActivity
-import com.yazdanmanesh.urlrestriction.MyAccessibilityService
 import android.content.Intent
 import android.widget.Toast
 import android.widget.EditText
@@ -13,13 +10,14 @@ import android.view.accessibility.AccessibilityManager
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.text.TextUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.yazdanmanesh.url_resteriction.Holer.Companion.setRedirectTo
+import com.yazdanmanesh.url_resteriction.Holer.Companion.setRestrictedAddress
+import com.yazdanmanesh.url_resteriction.MyAccessibilityService
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -27,12 +25,15 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+    private val REDIRECT_TO = "http://www.404.net"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (isMiUi()){
             showMiUiAlert()
         }
+        setRedirectTo(REDIRECT_TO)
         findViewById<View>(R.id.btn_accessibility).setOnClickListener {
             if (!isAccessibilityServiceEnabled(
                     this@MainActivity,
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     MyAccessibilityService::class.java
                 )
             ) {
-                setMyRestrictedAddress(filterInputAddress(edtRestrictedAddress))
+                setRestrictedAddress(filterInputAddress(edtRestrictedAddress))
                 Toast.makeText(this@MainActivity, "Successfully!", Toast.LENGTH_SHORT).show()
                 findViewById<TextView>(R.id.tv_help2).setText("Your browsers restrict '${filterInputAddress(edtRestrictedAddress)}' address ")
             } else Toast.makeText(this@MainActivity, "Service not is active!", Toast.LENGTH_SHORT)
@@ -67,13 +68,6 @@ class MainActivity : AppCompatActivity() {
             .toTypedArray()[1] else edtRestrictedAddress.text.toString()
     }
 
-    companion object {
-        var RestrictedAddress = ""
-        fun setMyRestrictedAddress(address: String) {
-            RestrictedAddress = address
-        }
-
-        fun getMyRestrictedAddress() = RestrictedAddress;
 
         fun isAccessibilityServiceEnabled(
             context: Context,
@@ -88,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
             return false
         }
-    }
+
 
 
     fun isMiUi(): Boolean {

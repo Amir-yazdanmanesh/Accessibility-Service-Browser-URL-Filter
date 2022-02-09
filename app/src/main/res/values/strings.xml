@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">URL Restriction</string>
-    <string name="accessibility_service_label">Restrict addresses</string>
-    <string name="accessibility_service_description">Restrict addresses entered in the browser</string>
+
     <string name="active_text">Active program</string>
     <string name="www">www. ...</string>
     <string name="enter_the_address_you_want_to_restrict">Enter the address you want to restrict</string>

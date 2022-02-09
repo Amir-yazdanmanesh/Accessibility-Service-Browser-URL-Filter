@@ -1,0 +1,36 @@
+ext {
+
+    gradleVer = '7.0.2'
+    kotlin_version = '1.5.30'
+    coreKtxVer = '1.7.0'
+    androidxVer = '1.4.1'
+
+    materialVer = '1.5.0'
+
+    constraintLayoutVer = "2.0.4"
+
+    support = [
+            supportAnnotations: 'com.android.support:support-annotations:28.0.0'
+    ]
+
+    androidx = [
+            appcompat                 : "androidx.appcompat:appcompat:$androidxVer",
+            coreKtx                   : "androidx.core:core-ktx:$coreKtxVer",
+            constraintlayout          : "androidx.constraintlayout:constraintlayout:$constraintLayoutVer",
+
+    ]
+
+
+    material = [
+            materialDesign : "com.google.android.material:material:$materialVer"
+    ]
+
+    kotlin = [
+            kotlinStdlib  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            kotlinReflect : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    ]
+
+
+}
+

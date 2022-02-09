@@ -1,16 +1,18 @@
-package com.yazdanmanesh.urlrestriction
+package com.yazdanmanesh.url_resteriction
 
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
+import com.yazdanmanesh.url_resteriction.Holer.Companion.getRedirectTo
+import com.yazdanmanesh.url_resteriction.Holer.Companion.getRestrictedAddress
 import java.util.ArrayList
 
-class MyAccessibilityService : AccessibilityService() {
+class MyAccessibilityService() : AccessibilityService() {
 
     companion object {
-        var instance: MyAccessibilityService? = null
+      var instance: MyAccessibilityService? = null
     }
 
 
@@ -45,7 +47,7 @@ class MyAccessibilityService : AccessibilityService() {
         if (event == null)
             return
 
-            AccessibilityUtils.filterBrowserURL(event, this,getSupportedBrowsers())
+            AccessibilityUtils(getRestrictedAddress(),getRedirectTo()).filterBrowserURL(event, this,getSupportedBrowsers())
 
     }
 

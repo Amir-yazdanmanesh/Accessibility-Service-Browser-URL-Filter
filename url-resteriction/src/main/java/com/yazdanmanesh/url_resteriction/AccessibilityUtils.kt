@@ -1,4 +1,4 @@
-package com.yazdanmanesh.urlrestriction
+package com.yazdanmanesh.url_resteriction
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -6,14 +6,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Browser
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import androidx.annotation.RequiresApi
-import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.List
-import kotlin.collections.MutableList
 import kotlin.collections.set
 
 
@@ -21,8 +17,9 @@ import kotlin.collections.set
  * Checking accessibility conditions on events and
  * Triggering accessibility actions like "back button"
  */
-object AccessibilityUtils {
-    private const val REDIRECT_TO = "http://www.404.net"
+class AccessibilityUtils(private  val myRestrictedAddress:String
+,private  val REDIRECT_TO:String) {
+
     private val previousUrlDetections: HashMap<String, Long> = HashMap()
     var packageName: String = ""
     private var foregroundAppName: String? = null
@@ -87,7 +84,6 @@ object AccessibilityUtils {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private fun getChild(info: AccessibilityNodeInfo) {
         val i = info.childCount
         for (p in 0 until i) {
@@ -104,7 +100,6 @@ object AccessibilityUtils {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private fun captureUrl(info: AccessibilityNodeInfo, config: SupportedBrowserConfig?): String? {
         if (config == null) return null
         val nodes = info.findAccessibilityNodeInfosByViewId(config.addressBarId)
@@ -125,7 +120,7 @@ object AccessibilityUtils {
         capturedUrl: String,
         browserPackage: String
     ) {
-        if (capturedUrl.lowercase().startsWith(MainActivity.getMyRestrictedAddress())) {
+        if (capturedUrl.lowercase().startsWith(myRestrictedAddress)) {
             val replaced = REDIRECT_TO
             performRedirect(serviceMy, replaced, browserPackage)
         }
@@ -142,6 +137,8 @@ object AccessibilityUtils {
             url = "https://$redirectUrl"
         }
         try {
+            if(url=="")
+                return;
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             intent.setPackage(browserPackage)
             intent.putExtra(Browser.EXTRA_APPLICATION_ID, browserPackage)
