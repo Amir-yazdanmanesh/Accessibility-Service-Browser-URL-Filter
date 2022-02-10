@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Browser
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import kotlin.collections.HashMap
@@ -17,8 +18,37 @@ import kotlin.collections.set
  * Checking accessibility conditions on events and
  * Triggering accessibility actions like "back button"
  */
-class AccessibilityUtils(private  val myRestrictedAddress:String
-,private  val REDIRECT_TO:String) {
+class AccessibilityUtils {
+
+companion object{
+    var myRestrictedAddress: String?=null
+    var redirectTo: String?=null
+}
+
+    data class Builder(
+        var myRestrictedAddress: String? = null,
+        var redirectTo: String? = null
+    ) {
+
+        fun setMyRestrictedAddress(myRestrictedAddress: String) =
+            apply { this.myRestrictedAddress = filterInputAddress(myRestrictedAddress) }
+
+        private fun filterInputAddress(edtRestrictedAddress: String): String {
+            return if (edtRestrictedAddress
+                    .startsWith("www.")
+            ) edtRestrictedAddress.split("www.")
+                .toTypedArray()[1] else edtRestrictedAddress
+        }
+
+        fun setRedirectTo(redirectTo: String) = apply { this.redirectTo = redirectTo }
+        fun build() {
+            AccessibilityUtils.myRestrictedAddress = myRestrictedAddress
+            AccessibilityUtils.redirectTo = redirectTo
+
+
+        }
+
+    }
 
     private val previousUrlDetections: HashMap<String, Long> = HashMap()
     var packageName: String = ""
@@ -28,15 +58,15 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
     fun filterBrowserURL(
         event: AccessibilityEvent,
         myAccessibilityService: MyAccessibilityService,
-        getSupportedBrowsers : List<SupportedBrowserConfig>
+        getSupportedBrowsers: List<SupportedBrowserConfig>
     ) {
         try {
             //get accessibility node info
             val parentNodeInfo = event.source ?: return
+
             if (event.packageName != null) {
                 packageName = event.packageName.toString()
             }
-
             //get foreground app name
             val packageManager: PackageManager = myAccessibilityService.packageManager
             try {
@@ -60,8 +90,9 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
                 return
             }
             val capturedUrl =
-                    captureUrl(parentNodeInfo, browserConfig)
+                captureUrl(parentNodeInfo, browserConfig)
             parentNodeInfo.recycle()
+
             //we can't find a url. Browser either was updated or opened page without url text field
             if (capturedUrl == null) {
                 return
@@ -69,14 +100,14 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
             val eventTime = event.eventTime
             val detectionId = "$packageName, and url $capturedUrl"
             val lastRecordedTime: Long? =
-                    if (previousUrlDetections.containsKey(detectionId)) previousUrlDetections[detectionId] else 0
+                if (previousUrlDetections.containsKey(detectionId)) previousUrlDetections[detectionId] else 0
             //some kind of redirect throttling
             if (eventTime - lastRecordedTime!! > 2000) {
                 previousUrlDetections[detectionId] = eventTime
-                analyzeCapturedUrl(
-                        myAccessibilityService,
-                        capturedUrl,
-                        browserConfig?.packageName ?: ""
+                   analyzeCapturedUrl(
+                    myAccessibilityService,
+                    capturedUrl,
+                    browserConfig?.packageName ?: ""
                 )
             }
         } catch (e: Exception) {
@@ -99,7 +130,6 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
     }
 
 
-
     private fun captureUrl(info: AccessibilityNodeInfo, config: SupportedBrowserConfig?): String? {
         if (config == null) return null
         val nodes = info.findAccessibilityNodeInfosByViewId(config.addressBarId)
@@ -120,9 +150,14 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
         capturedUrl: String,
         browserPackage: String
     ) {
-        if (capturedUrl.lowercase().startsWith(myRestrictedAddress)) {
-            val replaced = REDIRECT_TO
-            performRedirect(serviceMy, replaced, browserPackage)
+        Log.e("TAG", "myRestrictedAddress: "+myRestrictedAddress )
+        Log.e("TAG", "redirectTo: "+redirectTo )
+
+        if (capturedUrl.lowercase().startsWith(myRestrictedAddress ?: "")
+            && myRestrictedAddress ?: "" != ""
+        ) {
+            val replaced = redirectTo
+            performRedirect(serviceMy, replaced ?: "", browserPackage)
         }
     }
 
@@ -137,7 +172,7 @@ class AccessibilityUtils(private  val myRestrictedAddress:String
             url = "https://$redirectUrl"
         }
         try {
-            if(url=="")
+            if (url == "")
                 return;
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             intent.setPackage(browserPackage)

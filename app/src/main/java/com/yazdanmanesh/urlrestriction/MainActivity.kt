@@ -15,8 +15,7 @@ import android.view.View
 import android.widget.TextView
 import android.text.TextUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.yazdanmanesh.url_resteriction.Holer.Companion.setRedirectTo
-import com.yazdanmanesh.url_resteriction.Holer.Companion.setRestrictedAddress
+import com.yazdanmanesh.url_resteriction.AccessibilityUtils
 import com.yazdanmanesh.url_resteriction.MyAccessibilityService
 import java.io.BufferedReader
 import java.io.IOException
@@ -25,15 +24,16 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val REDIRECT_TO = "http://www.404.net"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (isMiUi()){
+        if (isMiUi()) {
             showMiUiAlert()
         }
-        setRedirectTo(REDIRECT_TO)
+        val myService = AccessibilityUtils.Builder()
+        myService.setRedirectTo("http://www.404.net")
+
         findViewById<View>(R.id.btn_accessibility).setOnClickListener {
             if (!isAccessibilityServiceEnabled(
                     this@MainActivity,
@@ -53,36 +53,30 @@ class MainActivity : AppCompatActivity() {
                     MyAccessibilityService::class.java
                 )
             ) {
-                setRestrictedAddress(filterInputAddress(edtRestrictedAddress))
+                myService.setMyRestrictedAddress(edtRestrictedAddress.text.toString())
+                myService.build()
+
                 Toast.makeText(this@MainActivity, "Successfully!", Toast.LENGTH_SHORT).show()
-                findViewById<TextView>(R.id.tv_help2).setText("Your browsers restrict '${filterInputAddress(edtRestrictedAddress)}' address ")
+                findViewById<TextView>(R.id.tv_help2).setText("Your browsers restrict '${edtRestrictedAddress.text}' address ")
             } else Toast.makeText(this@MainActivity, "Service not is active!", Toast.LENGTH_SHORT)
                 .show()
         }
     }
 
-    fun filterInputAddress(edtRestrictedAddress: EditText): String {
-        return if (edtRestrictedAddress.text.toString()
-                .startsWith("www.")
-        ) edtRestrictedAddress.text.toString().split("www.")
-            .toTypedArray()[1] else edtRestrictedAddress.text.toString()
-    }
 
-
-        fun isAccessibilityServiceEnabled(
-            context: Context,
-            service: Class<out AccessibilityService?>
-        ): Boolean {
-            val am = context.getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
-            val enabledServices =
-                am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
-            for (enabledService in enabledServices) {
-                val enabledServiceInfo = enabledService.resolveInfo.serviceInfo
-                if (enabledServiceInfo.packageName == context.packageName && enabledServiceInfo.name == service.name) return true
-            }
-            return false
+    fun isAccessibilityServiceEnabled(
+        context: Context,
+        service: Class<out AccessibilityService?>
+    ): Boolean {
+        val am = context.getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
+        val enabledServices =
+            am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
+        for (enabledService in enabledServices) {
+            val enabledServiceInfo = enabledService.resolveInfo.serviceInfo
+            if (enabledServiceInfo.packageName == context.packageName && enabledServiceInfo.name == service.name) return true
         }
-
+        return false
+    }
 
 
     fun isMiUi(): Boolean {
@@ -111,28 +105,31 @@ class MainActivity : AppCompatActivity() {
         return line
     }
 
-    fun showMiUiAlert(){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
-        val sharedCheckPermissionKeyValue = sharedPreferences.getInt("check_key",0)
-        if (sharedCheckPermissionKeyValue==0)
+    fun showMiUiAlert() {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        val sharedCheckPermissionKeyValue = sharedPreferences.getInt("check_key", 0)
+        if (sharedCheckPermissionKeyValue == 0)
             MaterialAlertDialogBuilder(this)
-            .setMessage("You must have give background permission to activate the application")
-            .setPositiveButton("Yes") { dialog, which ->
-                openBackgroundPermissionInXiaomi()
-                val editor:SharedPreferences.Editor =  sharedPreferences.edit()
-                editor.putInt("check_key",1)
-                editor.apply()
-            }
-            .setNegativeButton("Cancel") { dialog, which ->
-                dialog.dismiss()
-            }
-            .show()
+                .setMessage("You must have give background permission to activate the application")
+                .setPositiveButton("Yes") { dialog, which ->
+                    openBackgroundPermissionInXiaomi()
+                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                    editor.putInt("check_key", 1)
+                    editor.apply()
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
     }
 
     private fun openBackgroundPermissionInXiaomi() {
         val intent = Intent("miui.intent.action.APP_PERM_EDITOR")
-        intent.setClassName("com.miui.securitycenter",
-            "com.miui.permcenter.permissions.PermissionsEditorActivity")
+        intent.setClassName(
+            "com.miui.securitycenter",
+            "com.miui.permcenter.permissions.PermissionsEditorActivity"
+        )
         intent.putExtra("extra_pkgname", "com.yazdanmanesh.urlrestriction")
         startActivity(intent)
     }

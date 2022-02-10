@@ -1,18 +1,16 @@
 package com.yazdanmanesh.url_resteriction
-
-
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
-import com.yazdanmanesh.url_resteriction.Holer.Companion.getRedirectTo
-import com.yazdanmanesh.url_resteriction.Holer.Companion.getRestrictedAddress
 import java.util.ArrayList
 
-class MyAccessibilityService() : AccessibilityService() {
+class MyAccessibilityService : AccessibilityService() {
+
+
 
     companion object {
-      var instance: MyAccessibilityService? = null
+        var instance: MyAccessibilityService? = null
     }
 
 
@@ -22,16 +20,15 @@ class MyAccessibilityService() : AccessibilityService() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             this.serviceInfo = AccessibilityServiceInfo().apply {
-                feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK
-                eventTypes =
-                    AccessibilityEvent.TYPE_VIEW_CLICKED or
-
-                            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-                flags =
-                    AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS or
-                            AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS or
-                            AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
+                eventTypes = AccessibilityEvent.TYPES_ALL_MASK
                 packageNames = packageNames()
+                feedbackType = AccessibilityServiceInfo.FEEDBACK_VISUAL
+                notificationTimeout = 300
+                flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS or
+                        AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+                packageNames = packageNames()
+
+
             }
 
         }
@@ -47,13 +44,18 @@ class MyAccessibilityService() : AccessibilityService() {
         if (event == null)
             return
 
-            AccessibilityUtils(getRestrictedAddress(),getRedirectTo()).filterBrowserURL(event, this,getSupportedBrowsers())
+        AccessibilityUtils().filterBrowserURL(
+            event,
+            this,
+            getSupportedBrowsers()
+        )
 
     }
 
     override fun onInterrupt() {
         // ignore
     }
+
     private fun getSupportedBrowsers(): List<SupportedBrowserConfig> {
         val browsers: MutableList<SupportedBrowserConfig> = ArrayList()
         browsers.add(
@@ -115,5 +117,6 @@ class MyAccessibilityService() : AccessibilityService() {
         }
         return packageNames.toTypedArray()
     }
+
 
 }
