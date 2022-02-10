@@ -60,6 +60,7 @@ companion object{
         myAccessibilityService: MyAccessibilityService,
         getSupportedBrowsers: List<SupportedBrowserConfig>
     ) {
+
         try {
             //get accessibility node info
             val parentNodeInfo = event.source ?: return
@@ -89,14 +90,20 @@ companion object{
             if (browserConfig == null) {
                 return
             }
+
             val capturedUrl =
                 captureUrl(parentNodeInfo, browserConfig)
             parentNodeInfo.recycle()
+
 
             //we can't find a url. Browser either was updated or opened page without url text field
             if (capturedUrl == null) {
                 return
             }
+            Log.e("TAG", "event: "+event )
+            Log.e("TAG", "capturedUrl: "+capturedUrl )
+            Log.e("TAG", "eventt: "+event.contentChangeTypes )
+
             val eventTime = event.eventTime
             val detectionId = "$packageName, and url $capturedUrl"
             val lastRecordedTime: Long? =
@@ -104,7 +111,8 @@ companion object{
             //some kind of redirect throttling
             if (eventTime - lastRecordedTime!! > 2000) {
                 previousUrlDetections[detectionId] = eventTime
-                   analyzeCapturedUrl(
+                if(event.contentChangeTypes ==3)
+                analyzeCapturedUrl(
                     myAccessibilityService,
                     capturedUrl,
                     browserConfig?.packageName ?: ""
