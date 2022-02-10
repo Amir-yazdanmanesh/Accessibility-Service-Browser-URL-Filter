@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+group = 'com.github.Amir-yazdanmanesh'
+version = '1.0.1'
 
 android {
     compileSdk 31

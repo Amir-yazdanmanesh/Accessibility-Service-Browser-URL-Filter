@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":url-resteriction" external.linked.project.path="$MODULE_DIR$/../../../url-resteriction" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="URL Restriction" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":url-resteriction" external.linked.project.path="$MODULE_DIR$/../../../url-resteriction" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="com.github.Amir-yazdanmanesh" external.system.module.version="1.0.1" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -15,7 +15,7 @@
         </compilerSettings>
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/../../../url-resteriction/build/tmp/kotlin-classes/debug" />
-          <option name="classpath" value="$MODULE_DIR$/../../../url-resteriction/build/intermediates/compile_r_class_jar/debug/R.jar;H:/gradle/caches/transforms-3/dcbb200a18f2866fa79443a290a6ced1/transformed/jetified-kotlin-stdlib-jdk8-1.5.30.jar;H:/gradle/caches/transforms-3/ee2082227800cfe72d953bc212269bec/transformed/jetified-kotlin-stdlib-jdk7-1.5.30.jar;H:/gradle/caches/transforms-3/047d70b3e9cdf8ce35561d06376b2ce0/transformed/jetified-kotlin-stdlib-1.5.30.jar;H:/gradle/caches/transforms-3/8944b87225715a8d682ce21a3dffc5b9/transformed/jetified-annotations-13.0.jar;H:/gradle/caches/transforms-3/af10ceb8c543470d0c20f53bbcf9e796/transformed/jetified-kotlin-stdlib-common-1.5.30.jar;C:/android sdk/platforms/android-31/android.jar;C:/android sdk/build-tools/30.0.2/core-lambda-stubs.jar" />
+          <option name="classpath" value="$MODULE_DIR$/../../../url-resteriction/build/intermediates/compile_r_class_jar/debug/R.jar;H:/gradle/caches/transforms-3/608471ec332690de73c466f4e7b5a4ed/transformed/jetified-kotlin-stdlib-jdk8-1.5.30.jar;H:/gradle/caches/transforms-3/c44ef92f460a1f3320073f19eaa785f6/transformed/jetified-kotlin-stdlib-jdk7-1.5.30.jar;H:/gradle/caches/transforms-3/060c4bd5887f14f23bc48571af926643/transformed/jetified-kotlin-stdlib-1.5.30.jar;H:/gradle/caches/transforms-3/65c1519ab8a39efa528940e3ec0fb788/transformed/jetified-annotations-13.0.jar;H:/gradle/caches/transforms-3/174bba5168f7a414dfad9b5c992f4896/transformed/jetified-kotlin-stdlib-common-1.5.30.jar;C:/android sdk/platforms/android-31/android.jar;C:/android sdk/build-tools/30.0.2/core-lambda-stubs.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="url-resteriction_debug" />
