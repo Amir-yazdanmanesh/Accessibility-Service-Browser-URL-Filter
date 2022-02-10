@@ -3,11 +3,17 @@
 [![](https://jitpack.io/v/Amir-yazdanmanesh/Accessibility-Service-Browser-URL-Filter.svg)](https://jitpack.io/#Amir-yazdanmanesh/Accessibility-Service-Browser-URL-Filter) [![android Status](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com/)
 
 ## Filter url from browser by using accessibility service
-in this repository You can restrict the URLs that the user enters in their browser.
+In this repository You can restrict the URLs that the user enters in their browser.
+
+# Accessibility services
+Accessibility services should only be used to assist users with disabilities in using Android devices and apps. They run in the background and receive callbacks by the system when AccessibilityEvents are fired. Such events denote some state transition in the user interface, for example, the focus has changed, a button has been clicked, etc.
+
+
+- use [this link](https://developer.android.com/reference/android/accessibilityservice/AccessibilityService) to read more.
 
 # Install
-## Gradle
-Step 1.Add it in your root build.gradle at the end of repositories:
+### Step 1 :
+Add it in your root build.gradle at the end of repositories:
 
 ```
 allprojects {
@@ -17,7 +23,8 @@ allprojects {
     }
 }
 ```
-Step 2.Add the dependency
+### Step 2 :
+Add the dependency
 
 
 ```
@@ -27,16 +34,8 @@ dependencies {
 
 ```
 
-# Accessibility services
-Accessibility services should only be used to assist users with disabilities in using Android devices and apps. They run in the background and receive callbacks by the system when AccessibilityEvents are fired. Such events denote some state transition in the user interface, for example, the focus has changed, a button has been clicked, etc.
 
-
-- use [this link](https://developer.android.com/reference/android/accessibilityservice/AccessibilityService) to read more.
-
-# Using
-
-
-## Step 1
+### Step 3 :
 Active accessibility service in your device
 ``` 
 startActivity(  
@@ -44,7 +43,7 @@ startActivity(
         Settings.ACTION_ACCESSIBILITY_SETTINGS  
   ) 
    ``` 
-## Step 2
+### Step 4 :
 
 Set  restricted address and redirect address
 ``` 
