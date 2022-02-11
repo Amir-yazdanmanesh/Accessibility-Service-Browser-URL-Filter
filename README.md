@@ -29,7 +29,7 @@ Add the dependency
 
 ```
 dependencies {
-	        implementation 'com.github.Amir-yazdanmanesh:Accessibility-Service-Browser-URL-Filter:1.0.1'
+	        implementation 'com.github.Amir-yazdanmanesh:Accessibility-Service-Browser-URL-Filter:1.0.3'
 	}
 
 ```
