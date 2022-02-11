@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 group = 'com.github.Amir-yazdanmanesh'
-version = '1.0.2'
+version = '1.0.3'
 
 android {
     compileSdk 31
@@ -35,7 +35,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.github.Amir-yazdanmanesh'
                 artifactId = 'Accessibility-Service-Browser-URL-Filter'
-                version = '1.0.2'
+                version = '1.0.3'
             }
 
         }
