@@ -3,7 +3,7 @@
 [![](https://jitpack.io/v/Amir-yazdanmanesh/Accessibility-Service-Browser-URL-Filter.svg)](https://jitpack.io/#Amir-yazdanmanesh/Accessibility-Service-Browser-URL-Filter) [![android Status](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com/)
 
 ## Filter url from browser by using accessibility service
-In this repository You can restrict the URLs that the user enters in their browser.
+In this repository, You can restrict the URLs that the user enters in their browser.
 
 # Accessibility services
 Accessibility services should only be used to assist users with disabilities in using Android devices and apps. They run in the background and receive callbacks by the system when AccessibilityEvents are fired. Such events denote some state transition in the user interface, for example, the focus has changed, a button has been clicked, etc.
@@ -61,8 +61,8 @@ We detect either manual user input or redirect on link pressing (because in this
 
 
 ## Requirements
-- You must have give background permission to activate the application in Xiaomi devices
-- My Filter url on Android 5.0+ (API level 21+) .
+- You must have to give background permission to activate the application on Xiaomi devices
+- My filter URL on Android 5.0+ (API level 21+) .
 
 
 
