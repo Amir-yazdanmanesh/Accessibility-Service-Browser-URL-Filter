@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/URL_Restriction.iml" filepath="$PROJECT_DIR$/.idea/modules/URL_Restriction.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/URL_Restriction.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/URL_Restriction.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/url-resteriction/URL_Restriction.url-resteriction.iml" filepath="$PROJECT_DIR$/.idea/modules/url-resteriction/URL_Restriction.url-resteriction.iml" />
     </modules>
   </component>
 </project>

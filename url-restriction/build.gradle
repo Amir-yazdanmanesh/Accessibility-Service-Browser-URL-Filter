@@ -1,0 +1,48 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    id 'maven-publish'
+}
+
+group = 'com.github.Amir-yazdanmanesh'
+version = '2.0.0'
+
+android {
+    namespace "com.yazdanmanesh.url_restriction"
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    lint {
+        textOutput file('stdout')
+        textReport true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.Amir-yazdanmanesh'
+                artifactId = 'Accessibility-Service-Browser-URL-Filter'
+                version = '2.0.0'
+            }
+        }
+    }
+}
+
+dependencies {
+}

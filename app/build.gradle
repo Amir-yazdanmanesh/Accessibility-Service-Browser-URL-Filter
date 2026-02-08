@@ -1,16 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: '../dependencies.gradle'
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+}
 
 android {
-    compileSdk 31
+    namespace "com.yazdanmanesh.urlrestriction"
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.yazdanmanesh.urlrestriction"
         minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        targetSdk 35
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,23 +24,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+
+    buildFeatures {
+        compose true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 }
 
 dependencies {
-    //----------------- androidx -----------------
-    implementation androidx.constraintlayout
-    implementation androidx.appcompat
-    implementation androidx.coreKtx
-    //----------------- material -----------------
-    implementation material.materialDesign
-    implementation project(path: ':url-resteriction')
+    implementation libs.core.ktx
+    implementation libs.activity.compose
+    implementation libs.lifecycle.runtime.ktx
+    implementation libs.lifecycle.viewmodel.compose
 
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.ui
+    implementation libs.compose.ui.graphics
+    implementation libs.compose.ui.tooling.preview
+    implementation libs.compose.material3
 
+    debugImplementation libs.compose.ui.tooling
+
+    implementation project(path: ':url-restriction')
 }
